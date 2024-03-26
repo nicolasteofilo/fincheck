@@ -8,18 +8,24 @@ export class UsersService {
   constructor(private readonly usersRepo: UsersRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    const emailTaken = await this.usersRepo.findByEmail(createUserDto.email);
+    const { email, name } = createUserDto;
+
+    const emailTaken = await this.usersRepo.findByEmail({
+      where: {
+        email,
+      },
+    });
 
     if (emailTaken) {
-      throw new ConflictException('this email sent is in use');
+      throw new ConflictException(['this email sent is in use']);
     }
 
     const hashedPass = await hash(createUserDto.password, 8);
 
     const user = await this.usersRepo.create({
       data: {
-        name: createUserDto.name,
-        email: createUserDto.email,
+        name,
+        email,
         password: hashedPass,
         categories: {
           createMany: {
