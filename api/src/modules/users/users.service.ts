@@ -12,6 +12,9 @@ export class UsersService {
       }
     })
 
-    return user;
+    return {
+      name: user.name,
+      email: user.id,
+    };
   }
 }
