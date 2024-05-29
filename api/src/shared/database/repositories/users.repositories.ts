@@ -13,4 +13,8 @@ export class UsersRepository {
   async findByEmail(findByEmailDto: Prisma.UserFindUniqueArgs) {
     return this.prismaService.user.findUnique(findByEmailDto);
   }
+
+  async findById(findByIdDto: Prisma.UserFindUniqueArgs) {
+    return this.prismaService.user.findUnique(findByIdDto);
+  }
 }
