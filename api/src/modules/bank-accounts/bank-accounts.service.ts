@@ -23,8 +23,13 @@ export class BankAccountsService {
     return bankAccount;
   }
 
-  findAll() {
-    return `This action returns all bankAccounts`;
+  findAllByUserId(userId: string) {
+    const bankAccounts = this.bankAccountsRepo.findMany({
+      where: {
+        userId,
+      },
+    });
+    return bankAccounts;
   }
 
   findOne(id: number) {
