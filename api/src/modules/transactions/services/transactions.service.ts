@@ -37,10 +37,14 @@ export class TransactionsService {
     });
   }
 
-  async findAllByUserId(userId: string) {
+  async findAllByUserId(userId: string, filters: { month: number; year: number; bankAccontId?: number }) {
     const transactions = await this.transactionsRepo.findMany({
       where: {
         userId,
+        date: {
+          gte: new Date(Date.UTC(filters.year, filters.month)), 
+          lt: new Date(Date.UTC(filters.year, filters.month + 1)),
+        }
       },
     });
 
@@ -81,8 +85,8 @@ export class TransactionsService {
     await this.transactionsRepo.delete({
       where: {
         id: transactionId,
-      }
-    })
+      },
+    });
   }
 
   private async validateEntitiesOwnership({
