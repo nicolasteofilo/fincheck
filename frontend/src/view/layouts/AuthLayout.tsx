@@ -14,17 +14,19 @@ export function AuthLayout() {
         </div>
       </div>
 
-      <div className="w-1/2 h-full p-8 justify-center items-center relative hidden lg:flex">
-        <img
-          src={ilustrationLogin}
-          className="object-cover w-full h-full max-w-[656px] max-h-[960px] rounded-[32px]"
-        />
-        <div className="bg-white max-w-[656px] h-auto p-10 absolute rounded-b-[32px] bottom-8">
-          <Logo className="text-teal-900 h-8" />
-          <p className="text-gray-700 font-medium text-lg mt-6">
-            Gerencie suas finanças pessoais de uma forma simples com o fincheck,
-            e o melhor, totalmente de graça!
-          </p>
+      <div className="w-1/2 h-full p-8 justify-center items-center hidden lg:flex">
+        <div className="flex flex-col">
+          <img
+            src={ilustrationLogin}
+            className="object-cover w-full h-full max-w-[428px] max-h-[580px] rounded-[32px]"
+          />
+          <div className="max-w-[656px] h-auto p-10 bottom-8">
+            <Logo className="text-teal-900 h-8" />
+            <p className="text-gray-700 font-medium text-lg mt-6">
+              Gerencie suas finanças pessoais de uma forma simples com o
+              fincheck, e o melhor, totalmente de graça!
+            </p>
+          </div>
         </div>
       </div>
     </div>
