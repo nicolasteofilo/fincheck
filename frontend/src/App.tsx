@@ -1,5 +1,7 @@
+import { Router } from "./router";
+
 export function App() {
   return (
-    <h1 className="text-green-500 font-bold">Fincheck</h1>
+    <Router />
   )
 }
