@@ -3,7 +3,7 @@ import { Input } from "../../components/Input";
 import { useLoginController } from "./useLoginController";
 
 export function Login() {
-  const { handleSubmit, register, errors } = useLoginController();
+  const { handleSubmit, register, errors, isPending } = useLoginController();
 
   return (
     <>
@@ -27,7 +27,7 @@ export function Login() {
       <form className="flex flex-col mt-[60px] gap-4" onSubmit={handleSubmit}>
         <Input error={errors.email?.message} type="email" placeholder="E-mail" {...register("email")} />
         <Input error={errors.password?.message} type="password" placeholder="Senha" {...register("password")} />
-        <Button type="submit" text="Entrar" className="mt-2" />
+        <Button type="submit" text="Entrar" className="mt-2" isLoading={!!isPending} />
       </form>
     </>
   );

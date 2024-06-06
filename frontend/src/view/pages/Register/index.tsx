@@ -3,7 +3,9 @@ import { Input } from "../../components/Input";
 import { useRegistorController } from "./useRegisterController";
 
 export function Register() {
-  const { handleSubmit, register, errors } = useRegistorController();
+  const { handleSubmit, register, errors, isPending } = useRegistorController();
+
+  console.log({ isPending });
 
   return (
     <>
@@ -28,7 +30,7 @@ export function Register() {
         <Input type="text" placeholder="Nome" {...register('name')} error={errors.name?.message} />
         <Input type="email" placeholder="E-mail" {...register('email')} error={errors.email?.message} />
         <Input type="password" placeholder="Senha" {...register('password')} error={errors.password?.message} />
-        <Button type="submit" text="Criar conta" />
+        <Button type="submit" text="Criar conta" isLoading={!!isPending} />
       </form>
     </>
   );
