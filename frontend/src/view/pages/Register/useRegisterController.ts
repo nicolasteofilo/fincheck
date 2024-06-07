@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { authService } from "../../../app/services/authService";
 import { SignupParams } from "../../../app/services/authService/signup";
+import { useAuth } from "../../../app/hooks/useAuth";
 
 const schema = z.object({
   email: z
@@ -34,9 +35,12 @@ export function useRegistorController() {
     },
   });
 
+  const { signin } = useAuth();
+
   const handleSubmit = hookFormHandleSubmit(async (data) => {
     try {
-      await mutateAsync(data);
+      const { access_token } = await mutateAsync(data);
+      signin(access_token)
     } catch (error) {
       toast.error("Ocorreu um erro ao criar sua conta!");
     }

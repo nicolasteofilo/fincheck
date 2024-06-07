@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { authService } from "../../../app/services/authService";
 import { SigninParams } from "../../../app/services/authService/signin";
+import { useAuth } from "../../../app/hooks/useAuth";
 
 const schema = z.object({
   email: z
@@ -33,9 +34,12 @@ export function useLoginController() {
     },
   });
 
+  const { signin } = useAuth();
+
   const handleSubmit = hookFormHandleSubmit(async (data) => {
     try {
-      await mutateAsync(data);
+      const { access_token } = await mutateAsync(data);
+      signin(access_token);
     } catch (error) {
       toast.error("Credenciais inválidas!");
     }

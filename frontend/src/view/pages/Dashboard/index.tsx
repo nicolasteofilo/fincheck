@@ -1,3 +1,13 @@
+import { useAuth } from "../../../app/hooks/useAuth";
+import { Button } from "../../components/Button";
+
 export function Dashboard() {
-  return <h1>Dashboard Page</h1>
+  const { signout } = useAuth();
+
+  return (
+    <div>
+      <h1>Dashboard Page</h1>
+      <Button text="Sair" onClick={signout} />
+    </div>
+  );
 }
