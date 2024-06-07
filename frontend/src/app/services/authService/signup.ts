@@ -1,4 +1,3 @@
-import { delay } from "../../../utils/delay";
 import { httpClient } from "../httpClient";
 
 export interface SignupParams {
@@ -15,7 +14,6 @@ interface SignupResponse {
 }
 
 export async function signup(params: SignupParams) {
-  await delay(1500)
   const { data } = await httpClient.post<SignupResponse>("/auth/signup", params);
 
   return data;

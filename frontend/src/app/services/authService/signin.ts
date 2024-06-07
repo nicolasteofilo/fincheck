@@ -1,4 +1,3 @@
-import { delay } from "../../../utils/delay";
 import { httpClient } from "../httpClient";
 
 export interface SigninParams {
