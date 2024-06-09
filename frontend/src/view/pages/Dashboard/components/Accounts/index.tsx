@@ -1,12 +1,13 @@
-import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EyeIcon } from "../../../components/icons/EyeIcon";
-import { cn } from "../../../../utils/cn";
+import { EyeIcon } from "../../../../components/icons/EyeIcon";
+import { cn } from "../../../../../utils/cn";
 import { AccountCard } from "./AccountCard";
 import { AccountsSliderNavigation } from "./AccountsSliderNavigation";
+import { useAccountsController } from "./useAccountsController";
 
 export function Accounts() {
-  const [eyeOpen, setEyeOpen] = useState(true);
+  const { eyeOpen, setEyeOpen, sliderState, setSliderState } =
+    useAccountsController();
 
   function toogleEye() {
     setEyeOpen((prev) => !prev);
@@ -29,13 +30,45 @@ export function Accounts() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col justify-end">
+      <div className="flex-1 flex flex-col justify-end mt-10 lg:mt-0">
         <div>
-          <Swiper spaceBetween={16} slidesPerView={2.3}>
-            <div slot="container-start" className="flex items-center justify-between mb-4">
+          <Swiper
+            spaceBetween={16}
+            slidesPerView={2.3}
+            onAfterInit={(swiper) => {
+              setSliderState({
+                isBeginning: swiper.isBeginning,
+                isEnd: swiper.isEnd,
+              });
+            }}
+            onSlideChange={(swiper) => {
+              setSliderState({
+                isBeginning: swiper.isBeginning,
+                isEnd: swiper.isEnd,
+              });
+            }}
+            breakpoints={{
+              0: {
+                slidesPerView: 1.3,
+              },
+              480: {
+                slidesPerView: 1.3,
+              },
+              640: {
+                slidesPerView: 2.3,
+              },
+            }}
+          >
+            <div
+              slot="container-start"
+              className="flex items-center justify-between mb-4"
+            >
               <strong className="tracking-[-1px] text-lg">Minhas contas</strong>
 
-              <AccountsSliderNavigation />
+              <AccountsSliderNavigation
+                isBeginning={sliderState.isBeginning}
+                isEnd={sliderState.isEnd}
+              />
             </div>
 
             <div>
