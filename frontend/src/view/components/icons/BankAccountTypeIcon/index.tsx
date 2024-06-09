@@ -1,6 +1,6 @@
 import { iconsMap } from "./iconsMap";
 
-interface BankAccountTypeIconProps {
+export interface BankAccountTypeIconProps {
   type: keyof typeof iconsMap;
 }
 
