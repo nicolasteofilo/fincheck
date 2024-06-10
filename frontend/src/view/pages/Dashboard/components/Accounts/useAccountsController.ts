@@ -6,12 +6,8 @@ export function useAccountsController() {
     isEnd: false,
   });
 
-  const [eyeOpen, setEyeOpen] = useState(true);
-
   return {
     sliderState,
     setSliderState,
-    eyeOpen,
-    setEyeOpen,
   };
 }

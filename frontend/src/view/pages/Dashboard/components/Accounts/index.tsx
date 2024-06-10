@@ -4,14 +4,13 @@ import { cn } from "../../../../../utils/cn";
 import { AccountCard } from "./AccountCard";
 import { SliderNavigation } from "./SliderNavigation";
 import { useAccountsController } from "./useAccountsController";
+import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { useDashboard } from "../DashboardContext/useDashboard";
 
 export function Accounts() {
-  const { eyeOpen, setEyeOpen, sliderState, setSliderState } =
-    useAccountsController();
+  const { sliderState, setSliderState } = useAccountsController();
 
-  function toogleEye() {
-    setEyeOpen((prev) => !prev);
-  }
+  const { areValuesVisible, toogleValuesVasibility } = useDashboard();
 
   return (
     <div className="bg-teal-900 rounded-2xl h-full w-full px-4 py-8 lg:p-10 text-white flex flex-col">
@@ -20,12 +19,12 @@ export function Accounts() {
 
         <div className="flex gap-2 items-center">
           <strong
-            className={cn("text-2xl tracking-[-1px]", !eyeOpen && "blur-sm")}
+            className={cn("text-2xl tracking-[-1px]", !areValuesVisible && "blur-sm")}
           >
-            R$ 1000,00
+            {formatCurrency(1000)}
           </strong>
-          <button onClick={toogleEye} className="h-12 w-12">
-            <EyeIcon open={eyeOpen} />
+          <button onClick={() => toogleValuesVasibility()} className="h-12 w-12">
+            <EyeIcon open={areValuesVisible} />
           </button>
         </div>
       </div>
