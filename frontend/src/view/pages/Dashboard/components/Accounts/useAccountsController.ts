@@ -9,5 +9,6 @@ export function useAccountsController() {
   return {
     sliderState,
     setSliderState,
+    isLoading: false,
   };
 }

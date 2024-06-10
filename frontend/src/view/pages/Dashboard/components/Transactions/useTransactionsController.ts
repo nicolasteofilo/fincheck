@@ -9,5 +9,6 @@ export function useTransactionsController() {
   return {
     sliderState,
     setSliderState,
+    isLoading: false,
   };
 }
