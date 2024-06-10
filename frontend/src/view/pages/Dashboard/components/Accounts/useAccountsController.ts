@@ -10,5 +10,6 @@ export function useAccountsController() {
     sliderState,
     setSliderState,
     isLoading: false,
+    accounts: []
   };
 }
