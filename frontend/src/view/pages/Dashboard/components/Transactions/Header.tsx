@@ -1,11 +1,14 @@
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-import { TransactionsIcon } from "../../../../components/icons/TransactionsIcon";
 import { FilterIcon } from "../../../../components/icons/FilterIcon";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { SliderNavigation } from "./SliderNavigation";
 import { MONTHS } from "../../../../../app/config/constants";
 import { SliderOption } from "./SliderOption";
 import { useTransactionsController } from "./useTransactionsController";
+import { Dropdown } from "../../../../components/Dropdown";
+import { TransactionsIcon } from "../../../../components/icons/TransactionsIcon";
+import { ChevronUpIcon } from "@radix-ui/react-icons";
+import { IncomeIcon } from "../../../../components/icons/IncomeIcon";
+import { ExpensesIcon } from "../../../../components/icons/ExpensesIcon";
 
 export function Header() {
   const { sliderState, setSliderState } = useTransactionsController();
@@ -13,13 +16,32 @@ export function Header() {
   return (
     <header>
       <div className="flex items-center justify-between">
-        <button className="flex gap-2 items-center">
-          <TransactionsIcon />
-          <span className="text-gray-800 text-sm tracking-[-0.5px] font-medium">
-            Transações
-          </span>
-          <ChevronDownIcon className="text-gray-900" />
-        </button>
+        <Dropdown.Root>
+          <Dropdown.Trigger>
+            <button className="flex gap-2 items-center">
+              <TransactionsIcon />
+              <span className="text-gray-800 text-sm tracking-[-0.5px] font-medium">
+                Transações
+              </span>
+              <ChevronUpIcon className="text-gray-900" />
+            </button>
+          </Dropdown.Trigger>
+
+          <Dropdown.Content className="mt-2 w-[279px]">
+            <Dropdown.Item className="gap-2">
+              <IncomeIcon />
+              Receitas
+            </Dropdown.Item>
+            <Dropdown.Item className="gap-2">
+              <ExpensesIcon />
+              Despesas
+            </Dropdown.Item>
+            <Dropdown.Item className="gap-2">
+              <TransactionsIcon />
+              Transações
+            </Dropdown.Item>
+          </Dropdown.Content>
+        </Dropdown.Root>
         <button className="flex items-center">
           <FilterIcon />
         </button>
