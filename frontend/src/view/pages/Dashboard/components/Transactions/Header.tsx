@@ -10,7 +10,11 @@ import { ChevronUpIcon } from "@radix-ui/react-icons";
 import { IncomeIcon } from "../../../../components/icons/IncomeIcon";
 import { ExpensesIcon } from "../../../../components/icons/ExpensesIcon";
 
-export function Header() {
+interface HeaderProps {
+  handleOpenFiltersDialog(): void;
+}
+
+export function Header({ handleOpenFiltersDialog }: HeaderProps) {
   const { sliderState, setSliderState } = useTransactionsController();
 
   return (
@@ -42,7 +46,7 @@ export function Header() {
             </Dropdown.Item>
           </Dropdown.Content>
         </Dropdown.Root>
-        <button className="flex items-center">
+        <button className="flex items-center" onClick={handleOpenFiltersDialog}>
           <FilterIcon />
         </button>
       </div>

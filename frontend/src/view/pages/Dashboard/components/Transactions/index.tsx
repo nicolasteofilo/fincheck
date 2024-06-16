@@ -6,11 +6,20 @@ import { useDashboard } from "../DashboardContext/useDashboard";
 import { Header } from "./Header";
 import { useTransactionsController } from "./useTransactionsController";
 import emptyStateIlustration from "../../../../../assets/empty-state.svg";
+import { FiltersDialog } from "./FiltersDialog/index.tsx";
 
 export function Transactions() {
-  const { isInitialLoading, isLoading, transactions } =
-    useTransactionsController();
+  const {
+    isInitialLoading,
+    isLoading,
+    transactions,
+    isFiltersDialogOpen,
+    handleOpenFiltersDialog,
+    handleCloseFiltersDialog,
+  } = useTransactionsController();
   const { areValuesVisible } = useDashboard();
+
+  console.log({isFiltersDialogOpen})
 
   const hasTransactions = transactions.length > 0;
 
@@ -24,7 +33,8 @@ export function Transactions() {
 
       {!isInitialLoading && (
         <>
-          <Header />
+          <FiltersDialog open={isFiltersDialogOpen} onClose={handleCloseFiltersDialog} />
+          <Header handleOpenFiltersDialog={handleOpenFiltersDialog} />
 
           <div className="mt-4 space-y-2 flex-1 overflow-y-auto">
             {(!hasTransactions || isLoading) && (
@@ -45,7 +55,7 @@ export function Transactions() {
               </div>
             )}
 
-            {(hasTransactions && !isLoading) && (
+            {hasTransactions && !isLoading && (
               <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
                 <div className="flex-1 flex items-center gap-3">
                   <CategoryIcon type="expense" />
