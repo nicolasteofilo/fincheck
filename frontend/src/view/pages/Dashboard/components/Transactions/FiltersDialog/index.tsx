@@ -1,13 +1,33 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { Dialog } from "../../../../../components/Dialog";
 import { Button } from "../../../../../components/Button";
+import { useFiltersDialog } from "./useFiltersDialog";
+import { cn } from "../../../../../../utils/cn";
 
 interface FiltersDialogProps {
   open: boolean;
   onClose(): void;
 }
 
+const mockedAccounts = [
+  {
+    id: "123",
+    name: "Nubank",
+  },
+  {
+    id: "345",
+    name: "XP Investimentos",
+  },
+];
+
 export function FiltersDialog({ open, onClose }: FiltersDialogProps) {
+  const {
+    selectedBankAccountId,
+    handleSelectBankAccountId,
+    selectedYear,
+    handleChangeYear,
+  } = useFiltersDialog();
+
   return (
     <Dialog open={open} onClose={onClose} title="Filtros">
       <div className="mt-10">
@@ -15,9 +35,18 @@ export function FiltersDialog({ open, onClose }: FiltersDialogProps) {
           Conta
         </span>
         <div className="space-y-2 mt-2">
-          <button className="p-2 rounded-2xl w-full text-left text-gray-800 hover:bg-gray-50 transition-colors">
-            XP Investimentos
-          </button>
+          {mockedAccounts.map((account) => (
+            <button
+              key={account.id}
+              onClick={() => handleSelectBankAccountId(account.id)}
+              className={cn(
+                "p-2 rounded-2xl w-full text-left text-gray-800 hover:bg-gray-50 transition-colors",
+                account.id === selectedBankAccountId && "!bg-gray-200"
+              )}
+            >
+              {account.name}
+            </button>
+          ))}
         </div>
       </div>
       <div className="mt-10 text-gray-800">
@@ -26,13 +55,15 @@ export function FiltersDialog({ open, onClose }: FiltersDialogProps) {
         </span>
 
         <div className="w-[210px] mt-2 flex items-center justify-between">
-          <button className="w-12 h-12 flex items-center justify-center">
+          <button className="w-12 h-12 flex items-center justify-center" onClick={() => handleChangeYear(-1)}>
             <ChevronLeftIcon className="w-6 h-6" />
           </button>
           <div className="flex-1 items-center justify-center text-center">
-            <span className="text-sm font-bold tracking-[-0.5px]">2024</span>
+            <span className="text-sm font-bold tracking-[-0.5px]">
+              {selectedYear}
+            </span>
           </div>
-          <button className="w-12 h-12 flex items-center justify-center">
+          <button className="w-12 h-12 flex items-center justify-center" onClick={() => handleChangeYear(1)}>
             <ChevronRightIcon className="w-6 h-6" />
           </button>
         </div>

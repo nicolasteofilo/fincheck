@@ -5,8 +5,6 @@ import { useRegistorController } from "./useRegisterController";
 export function Register() {
   const { handleSubmit, register, errors, isPending } = useRegistorController();
 
-  console.log({ isPending });
-
   return (
     <>
       <header className="flex flex-col items-center gap-4">

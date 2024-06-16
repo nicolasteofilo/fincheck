@@ -27,7 +27,7 @@ function DropdownRoot({ children, onOpenChange }: DropdownRootProps) {
 
 function DropdownTrigger({ children }: { children: React.ReactNode }) {
   return (
-    <DropdownMenu.Trigger className="outline-none">
+    <DropdownMenu.Trigger className="outline-none" asChild>
       {children}
     </DropdownMenu.Trigger>
   );

@@ -19,8 +19,6 @@ export function Transactions() {
   } = useTransactionsController();
   const { areValuesVisible } = useDashboard();
 
-  console.log({isFiltersDialogOpen})
-
   const hasTransactions = transactions.length > 0;
 
   return (
