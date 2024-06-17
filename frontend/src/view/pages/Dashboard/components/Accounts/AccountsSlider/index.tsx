@@ -5,7 +5,7 @@ import { useAccountsController } from "../useAccountsController";
 import { PlusIcon } from "@radix-ui/react-icons";
 
 export function AccountsSlider() {
-  const { sliderState, setSliderState, accounts } = useAccountsController();
+  const { sliderState, setSliderState, accounts, openNewAccountDialog } = useAccountsController();
 
   return (
     <div className="flex-1 flex flex-col justify-end mt-10 lg:mt-0">
@@ -14,7 +14,7 @@ export function AccountsSlider() {
           <div className="mb-4">
             <strong className="tracking-[-1px] text-lg">Minhas contas</strong>
 
-            <button className="mt-4 h-52 border-2 border-teal-600 border-dashed rounded-2xl w-full font-medium flex flex-col items-center justify-center gap-4 text-white">
+            <button onClick={openNewAccountDialog} className="mt-4 h-52 border-2 border-teal-600 border-dashed rounded-2xl w-full font-medium flex flex-col items-center justify-center gap-4 text-white">
               <div className="w-11 h-11 border-2 border-dashed rounded-full flex items-center justify-center">
                 <PlusIcon className="w-6 h-6" />
               </div>

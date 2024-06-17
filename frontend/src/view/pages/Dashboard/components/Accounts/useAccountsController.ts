@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDashboard } from "../DashboardContext/useDashboard";
 
 export function useAccountsController() {
   const [sliderState, setSliderState] = useState({
@@ -6,10 +7,13 @@ export function useAccountsController() {
     isEnd: false,
   });
 
+  const { openNewAccountDialog } = useDashboard();
+
   return {
     sliderState,
     setSliderState,
     isLoading: false,
-    accounts: []
+    accounts: [],
+    openNewAccountDialog,
   };
 }

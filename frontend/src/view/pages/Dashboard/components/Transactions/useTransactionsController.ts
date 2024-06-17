@@ -6,7 +6,7 @@ export function useTransactionsController() {
     isEnd: false,
   });
 
-  const [isFiltersDialogOpen, setIsFiltersDialogOpen] = useState(true);
+  const [isFiltersDialogOpen, setIsFiltersDialogOpen] = useState(false);
 
   function handleOpenFiltersDialog() {
     setIsFiltersDialogOpen(true);
