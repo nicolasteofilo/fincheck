@@ -15,6 +15,7 @@ interface DropdownItemProps {
 interface DropdownContentProps {
   children: React.ReactNode;
   className?: string;
+  side?: "top" | "right" | "bottom" | "left";
 }
 
 function DropdownRoot({ children, onOpenChange }: DropdownRootProps) {
@@ -33,10 +34,11 @@ function DropdownTrigger({ children }: { children: React.ReactNode }) {
   );
 }
 
-function DropdownContent({ children, className }: DropdownContentProps) {
+function DropdownContent({ children, className, side }: DropdownContentProps) {
   return (
     <DropdownMenu.Portal>
       <DropdownMenu.Content
+        side={side}
         className={cn(
           "rounded-2xl p-2 bg-white space-y-2 shadow-[0px_11px_20px_0px_rgba(0,0,0,0.10)] z-[99]",
           "data-[side=bottom]:animate-slide-up-and-fade",

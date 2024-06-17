@@ -1,3 +1,4 @@
+import { ColorsDropdownInput } from "../../../../components/ColorsDropdownInput";
 import { Dialog } from "../../../../components/Dialog";
 import { Input } from "../../../../components/Input";
 import { InputCurreny } from "../../../../components/InputCurreny";
@@ -33,6 +34,7 @@ export function NewAccountDialog() {
               { value: "CASH", label: "Dinheiro Físico" },
             ]}
           />
+          <ColorsDropdownInput />
         </div>
       </form>
     </Dialog>
