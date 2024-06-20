@@ -51,7 +51,7 @@ export function Header({ handleOpenFiltersDialog }: HeaderProps) {
         </button>
       </div>
 
-      <div className="mt-6 relative">
+      <div className="mt-6 relative z-[0]">
         <Swiper
           slidesPerView={3}
           centeredSlides

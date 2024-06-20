@@ -17,13 +17,13 @@ export function Dialog({ className, children, open, title, rightAction, onClose 
       <RdxDialog.Portal>
         <RdxDialog.Overlay
           className={cn(
-            "fixed inset-0 bg-black/80 backdrop-blur-sm z-50",
+            "fixed inset-0 bg-black/80 backdrop-blur-sm z-[99]",
             "data-[state=open]:animate-overlay-show"
           )}
         />
         <RdxDialog.Content
           className={cn(
-            "z-[51] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 focus:outline-none p-6 space-10 bg-white rounded-2xl w-full max-w-[400px]",
+            "z-[99] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 focus:outline-none p-6 space-10 bg-white rounded-2xl w-full max-w-[400px]",
             "data-[state=open]:animate-content-show",
             "shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px]",
             className
