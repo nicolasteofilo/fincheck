@@ -19,12 +19,10 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [areValuesVisible, setAreValuesVisible] = useState(true);
   const [isNewAccountDialogOpen, setIsNewAccountDialogOpen] = useState(false);
   const [isNewTransactionDialogOpen, setIsNewTransactionDialogOpen] =
-    useState(true);
+    useState(false);
   const [newTransactionType, setNewTransactionType] = useState<
     "INCOME" | "EXPENSE" | null
   >(null);
-
-  console.log({ isNewAccountDialogOpen });
 
   const toogleValuesVasibility = useCallback(() => {
     setAreValuesVisible((prev) => !prev);
