@@ -4,6 +4,6 @@ import { InvestmentIcon } from "./InvestmentIcon";
 
 export const iconsMap = {
   CHECKING: CheckingIcon,
-  INVESTMENT: InvestmentIcon,
+  INVESTIMENT: InvestmentIcon,
   CASH: CashIcon,
 };

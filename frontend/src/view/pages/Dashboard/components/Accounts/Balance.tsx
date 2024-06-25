@@ -3,7 +3,7 @@ import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { EyeIcon } from "../../../../components/icons/EyeIcon";
 import { useDashboard } from "../DashboardContext/useDashboard";
 
-export function Balance() {
+export function Balance({ currentBalance }: { currentBalance: number }) {
   const { areValuesVisible, toogleValuesVasibility } = useDashboard();
 
   return (
@@ -17,7 +17,7 @@ export function Balance() {
             !areValuesVisible && "blur-sm"
           )}
         >
-          {formatCurrency(1000)}
+          {formatCurrency(currentBalance)}
         </strong>
         <button onClick={() => toogleValuesVasibility()} className="h-12 w-12">
           <EyeIcon open={areValuesVisible} />

@@ -6,6 +6,7 @@ import { Transactions } from "./components/Transactions";
 import { Fab } from "./components/Fab";
 import { NewAccountDialog } from "./dialogs/NewAccountDialog";
 import { NewTransactionDialog } from "./dialogs/NewTransactionDialog";
+import { EditAccountDialog } from "./dialogs/EditAccountDialog";
 
 export function Dashboard() {
   return (
@@ -30,6 +31,7 @@ export function Dashboard() {
       </div>
 
       <NewAccountDialog />
+      <EditAccountDialog />
       <NewTransactionDialog />
     </DashboardProvider>
   );

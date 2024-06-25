@@ -4,7 +4,15 @@ import { Balance } from "./Balance";
 import { AccountsSlider } from "./AccountsSlider";
 
 export function Accounts() {
-  const { isLoading } = useAccountsController();
+  const {
+    isLoading,
+    accounts,
+    sliderState,
+    setSliderState,
+    openNewAccountDialog,
+    currentBalance,
+    openEditAccountDialog,
+  } = useAccountsController();
 
   return (
     <div className="bg-teal-900 rounded-2xl h-full w-full px-4 py-8 lg:p-10 text-white flex flex-col">
@@ -16,8 +24,14 @@ export function Accounts() {
 
       {!isLoading && (
         <>
-          <Balance />
-          <AccountsSlider />
+          <Balance currentBalance={currentBalance} />
+          <AccountsSlider
+            accounts={accounts}
+            sliderState={sliderState}
+            setSliderState={setSliderState}
+            openNewAccountDialog={openNewAccountDialog}
+            openEditAccountDialog={openEditAccountDialog}
+          />
         </>
       )}
     </div>

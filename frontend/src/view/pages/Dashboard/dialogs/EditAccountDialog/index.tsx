@@ -4,41 +4,24 @@ import { Dialog } from "../../../../components/Dialog";
 import { Input } from "../../../../components/Input";
 import { InputCurreny } from "../../../../components/InputCurreny";
 import { Select } from "../../../../components/Select";
-import { useNewAccountDialogController } from "./useNewAccountDialogController";
 import { Button } from "../../../../components/Button";
 import { Controller } from "react-hook-form";
+import { useEditAccountDialogController } from "./useEditAccountDialogController";
 
-export function NewAccountDialog() {
-  const {
-    closeNewAccountDialog,
-    isNewAccountDialogOpen,
-    errors,
-    register,
-    handleSubmit,
-    control,
-    isLoading,
-  } = useNewAccountDialogController();
+export function EditAccountDialog() {
+  const { isEditAccountDialogOpen, closeEditAccountDialog, errors, register, handleSubmit, control, isLoading } =
+    useEditAccountDialogController();
 
   return (
-    <Dialog
-      title="Nova Conta"
-      open={isNewAccountDialogOpen}
-      onClose={closeNewAccountDialog}
-    >
+    <Dialog title="Editar Conta" open={isEditAccountDialogOpen} onClose={closeEditAccountDialog}>
       <form className="mt-10" onSubmit={handleSubmit}>
         <div className="flex flex-col">
-          <span className="text-gray-600 tracking-[-0.5px] text-xs">
-            Saldo inicial
-          </span>
+          <span className="text-gray-600 tracking-[-0.5px] text-xs">Saldo inicial</span>
           <div className="flex items-center gap-2">
             <span className="text-gray-600 tracking-[-0.5px] text-lg">R$</span>
             <Controller
               render={({ field: { onChange, value } }) => (
-                <InputCurreny
-                  className="w-full"
-                  onChange={onChange}
-                  value={value}
-                />
+                <InputCurreny className="w-full" onChange={onChange} value={value} />
               )}
               name="initialBalance"
               control={control}

@@ -17,8 +17,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function useNewAccountDialogController() {
-  const { isNewAccountDialogOpen, closeNewAccountDialog } = useDashboard();
+export function useEditAccountDialogController() {
+  const { isEditAccountDialogOpen, closeEditAccountDialog } = useDashboard();
 
   const {
     handleSubmit: hookFormHandleSubmit,
@@ -45,22 +45,22 @@ export function useNewAccountDialogController() {
     try {
       await mutateAsync({
         ...data,
-        type: data.type === 'INVESTIMENT' ? 'INVESTMENT' : data.type,
+        type: data.type === "INVESTIMENT" ? "INVESTMENT" : data.type,
         initialBalance: currenytStringToNumber(data.initialBalance),
       });
 
       queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
-      toast.success("Conta cadastrada com sucesso!");
+      toast.success("Conta editada com sucesso!");
       reset();
-      closeNewAccountDialog();
+      closeEditAccountDialog();
     } catch {
-      toast.error("Erro ao criar sua conta, tente novamente!");
+      toast.error("Erro ao editar sua conta, tente novamente!");
     }
   });
 
   return {
-    isNewAccountDialogOpen,
-    closeNewAccountDialog,
+    isEditAccountDialogOpen,
+    closeEditAccountDialog,
     errors,
     register,
     handleSubmit,
