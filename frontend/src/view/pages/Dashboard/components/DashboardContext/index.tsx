@@ -28,8 +28,6 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [newTransactionType, setNewTransactionType] = useState<"INCOME" | "EXPENSE" | null>(null);
   const [accountBeingEdited, setAccountBeingEdited] = useState<BankAccount | null>(null);
 
-  console.log(accountBeingEdited)
-
   const toogleValuesVasibility = useCallback(() => {
     setAreValuesVisible((prev) => !prev);
   }, []);

@@ -1,12 +1,10 @@
-import { DashboardProvider } from "./components/DashboardContext";
 import { Logo } from "../../components/Logo";
 import { UserMenu } from "../../components/UserMenu";
 import { Accounts } from "./components/Accounts";
-import { Transactions } from "./components/Transactions";
+import { DashboardProvider } from "./components/DashboardContext";
 import { Fab } from "./components/Fab";
-import { NewAccountDialog } from "./dialogs/NewAccountDialog";
-import { NewTransactionDialog } from "./dialogs/NewTransactionDialog";
-import { EditAccountDialog } from "./dialogs/EditAccountDialog";
+import { Transactions } from "./components/Transactions";
+import { DialogsWrapper } from "./dialogs/Wrapper";
 
 export function Dashboard() {
   return (
@@ -30,9 +28,7 @@ export function Dashboard() {
         <Fab />
       </div>
 
-      <NewAccountDialog />
-      <EditAccountDialog />
-      <NewTransactionDialog />
+      <DialogsWrapper />
     </DashboardProvider>
   );
 }

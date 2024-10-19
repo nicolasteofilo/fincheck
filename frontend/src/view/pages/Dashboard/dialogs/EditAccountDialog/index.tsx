@@ -1,11 +1,11 @@
 import { CrossCircledIcon } from "@radix-ui/react-icons";
+import { Controller } from "react-hook-form";
+import { Button } from "../../../../components/Button";
 import { ColorsDropdownInput } from "../../../../components/ColorsDropdownInput";
 import { Dialog } from "../../../../components/Dialog";
 import { Input } from "../../../../components/Input";
 import { InputCurreny } from "../../../../components/InputCurreny";
 import { Select } from "../../../../components/Select";
-import { Button } from "../../../../components/Button";
-import { Controller } from "react-hook-form";
 import { useEditAccountDialogController } from "./useEditAccountDialogController";
 
 export function EditAccountDialog() {
@@ -21,7 +21,7 @@ export function EditAccountDialog() {
             <span className="text-gray-600 tracking-[-0.5px] text-lg">R$</span>
             <Controller
               render={({ field: { onChange, value } }) => (
-                <InputCurreny className="w-full" onChange={onChange} value={value} />
+                <InputCurreny className="w-full" onChange={onChange} value={value as number} />
               )}
               name="initialBalance"
               control={control}
