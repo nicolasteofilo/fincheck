@@ -65,7 +65,6 @@ export function useNewTransactionDialog() {
     }
   });
 
-
   function onClose() {
     closeNewTransactionDialog();
     reset();

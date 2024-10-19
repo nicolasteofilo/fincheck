@@ -33,6 +33,7 @@ export function NewTransactionDialog() {
     register,
     accounts,
     categories,
+    isLoading,
   } = useNewTransactionDialog();
 
   return (
@@ -103,7 +104,7 @@ export function NewTransactionDialog() {
               <DatePickerInput value={value} onChange={onChange} error={errors.date?.message} />
             )}
           />
-          <Button text="Salvar" type="submit" />
+          <Button text="Salvar" type="submit" isLoading={isLoading} />
         </div>
       </form>
     </Dialog>
