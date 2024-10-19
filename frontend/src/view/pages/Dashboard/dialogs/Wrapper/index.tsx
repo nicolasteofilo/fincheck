@@ -5,7 +5,6 @@ import { NewTransactionDialog } from "../NewTransactionDialog";
 
 export function DialogsWrapper() {
   const { accountBeingEdited } = useDashboard();
-  console.log(accountBeingEdited)
 
   return (
     <>

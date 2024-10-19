@@ -2,7 +2,7 @@ import { httpClient } from "../httpClient";
 
 export interface CreateBankAccountParams {
   name: string;
-  type: "INVESTMENT" | "CASH" | "CHECKING";
+  type: "INVESTMENT" | "CASH" | "CHECKING" | "INVESTIMENT";
   initialBalance: number;
   color: string;
 }

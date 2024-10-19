@@ -45,8 +45,8 @@ export function useNewAccountDialogController() {
     try {
       await mutateAsync({
         ...data,
-        type: data.type === 'INVESTIMENT' ? 'INVESTMENT' : data.type,
-        initialBalance: currenytStringToNumber(data.initialBalance),
+        type: data.type === 'INVESTIMENT' ? 'INVESTIMENT' : data.type,
+        initialBalance: currenytStringToNumber(data.initialBalance) as number,
       });
 
       queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
