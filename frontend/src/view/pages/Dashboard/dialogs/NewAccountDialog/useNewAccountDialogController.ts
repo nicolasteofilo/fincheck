@@ -1,12 +1,12 @@
-import { z } from "zod";
-import { useDashboard } from "../../components/DashboardContext/useDashboard";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BankAccountParams } from "../../../../../app/services/bankAccountsService/create";
-import { bankAccountsService } from "../../../../../app/services/bankAccountsService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { z } from "zod";
+import { bankAccountsService } from "../../../../../app/services/bankAccountsService";
+import { CreateBankAccountParams } from "../../../../../app/services/bankAccountsService/create";
 import { currenytStringToNumber } from "../../../../../utils/currenytStringToNumber";
+import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
 const schema = z.object({
   name: z.string().min(1, "Nome da conta é obrigatório"),
@@ -36,7 +36,7 @@ export function useNewAccountDialogController() {
   const queryClient = useQueryClient();
 
   const { isPending, mutateAsync } = useMutation({
-    mutationFn: async (data: BankAccountParams) => {
+    mutationFn: async (data: CreateBankAccountParams) => {
       return bankAccountsService.create(data);
     },
   });

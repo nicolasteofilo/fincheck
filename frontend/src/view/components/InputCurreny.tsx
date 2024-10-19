@@ -1,6 +1,5 @@
 import { NumericFormat } from "react-number-format";
 import { cn } from "../../utils/cn";
-import { formatCurrency } from "../../utils/formatCurrency";
 
 interface InputCurrenyProps {
   className?: string;
@@ -18,7 +17,7 @@ export function InputCurreny({ className, onChange, value }: InputCurrenyProps) 
         )}
         thousandSeparator="."
         decimalSeparator=","
-        value={formatCurrency(value as number)}
+        value={value}
         onChange={event => onChange?.(event.target.value)}
       />
     </div>

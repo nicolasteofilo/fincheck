@@ -2,18 +2,47 @@ import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { Controller } from "react-hook-form";
 import { Button } from "../../../../components/Button";
 import { ColorsDropdownInput } from "../../../../components/ColorsDropdownInput";
+import { ConfirmDeleteModal } from "../../../../components/ConfirmDeleteModal";
 import { Dialog } from "../../../../components/Dialog";
+import { TrashIcon } from "../../../../components/icons/TrashIcon";
 import { Input } from "../../../../components/Input";
 import { InputCurreny } from "../../../../components/InputCurreny";
 import { Select } from "../../../../components/Select";
 import { useEditAccountDialogController } from "./useEditAccountDialogController";
 
 export function EditAccountDialog() {
-  const { isEditAccountDialogOpen, closeEditAccountDialog, errors, register, handleSubmit, control, isLoading } =
-    useEditAccountDialogController();
+  const {
+    isEditAccountDialogOpen,
+    closeEditAccountDialog,
+    errors,
+    register,
+    handleSubmit,
+    control,
+    isLoadingEdit,
+    isLoadingRemove,
+    toogleDeleteModal,
+    isDeleteModalOpen,
+    handleDeleteAccount,
+  } = useEditAccountDialogController();
 
   return (
-    <Dialog title="Editar Conta" open={isEditAccountDialogOpen} onClose={closeEditAccountDialog}>
+    <Dialog
+      title="Editar Conta"
+      open={isEditAccountDialogOpen}
+      onClose={closeEditAccountDialog}
+      rightAction={(
+        <button onClick={toogleDeleteModal}><TrashIcon className="w-6 h-6 text-red-900" /></button>
+      )}>
+
+      <ConfirmDeleteModal
+        open={isDeleteModalOpen}
+        onClose={toogleDeleteModal}
+        title="Tem certeza que deseja excluir esta conta?"
+        description="Ao exluir a conta, também serão excluídos todos os registros de receita e despesas relacionados."
+        onConfirm={handleDeleteAccount}
+        isLoading={isLoadingRemove}
+      />
+
       <form className="mt-10" onSubmit={handleSubmit}>
         <div className="flex flex-col">
           <span className="text-gray-600 tracking-[-0.5px] text-xs">Saldo inicial</span>
@@ -72,7 +101,7 @@ export function EditAccountDialog() {
             )}
           />
 
-          <Button text="Criar" isLoading={isLoading} />
+          <Button text="Salvar" isLoading={isLoadingEdit} />
         </div>
       </form>
     </Dialog>

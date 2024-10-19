@@ -1,10 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { bankAccountsService } from "../../../../../app/services/bankAccountsService";
-import { BankAccountParams } from "../../../../../app/services/bankAccountsService/create";
+import { RemoveBankAccountParams } from "../../../../../app/services/bankAccountsService/remove";
+import { UpdateBankAccountParams } from "../../../../../app/services/bankAccountsService/update";
 import { currenytStringToNumber } from "../../../../../utils/currenytStringToNumber";
 import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
@@ -25,8 +27,6 @@ type FormData = z.infer<typeof schema>;
 export function useEditAccountDialogController() {
   const { isEditAccountDialogOpen, closeEditAccountDialog, accountBeingEdited } = useDashboard();
 
-  console.log(accountBeingEdited?.initialBalance)
-
   const {
     handleSubmit: hookFormHandleSubmit,
     register,
@@ -38,24 +38,32 @@ export function useEditAccountDialogController() {
     defaultValues: {
       color: accountBeingEdited?.color,
       name: accountBeingEdited?.name,
-      initialBalance: (currenytStringToNumber(accountBeingEdited?.initialBalance) as unknown as string)
+      initialBalance: accountBeingEdited?.initialBalance
     },
   });
 
   const queryClient = useQueryClient();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const { isPending, mutateAsync } = useMutation({
-    mutationFn: async (data: BankAccountParams) => {
-      return bankAccountsService.create(data);
+  const { isPending: isPendingEdit, mutateAsync: updateAccount } = useMutation({
+    mutationFn: async (data: UpdateBankAccountParams) => {
+      return bankAccountsService.update(data);
+    },
+  });
+
+  const { isPending: isPendingRemove, mutateAsync: removeAccount } = useMutation({
+    mutationFn: async (data: RemoveBankAccountParams) => {
+      return bankAccountsService.remove(data);
     },
   });
 
   const handleSubmit = hookFormHandleSubmit(async (data) => {
     try {
-      await mutateAsync({
+      await updateAccount({
         ...data,
         type: data.type === "INVESTIMENT" ? "INVESTMENT" : data.type,
         initialBalance: currenytStringToNumber(data.initialBalance) as number,
+        id: accountBeingEdited!.id
       });
 
       queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
@@ -63,9 +71,25 @@ export function useEditAccountDialogController() {
       reset();
       closeEditAccountDialog();
     } catch {
-      toast.error("Erro ao editar sua conta, tente novamente!");
+      toast.error("Erro ao editar a conta, tente novamente!");
     }
   });
+
+  function toogleDeleteModal() {
+    setIsDeleteModalOpen((prevState) => !prevState)
+  }
+
+  async function handleDeleteAccount() {
+    try {
+      await removeAccount({ id: accountBeingEdited!.id });
+      toogleDeleteModal();
+      closeEditAccountDialog();
+      toast.success("Conta deletada com sucesso!");
+      queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
+    } catch (error) {
+      toast.error("Erro ao excluir a conta, tente novamente!");
+    }
+  }
 
   return {
     isEditAccountDialogOpen,
@@ -74,7 +98,11 @@ export function useEditAccountDialogController() {
     register,
     handleSubmit,
     control,
-    isLoading: isPending,
+    isLoadingEdit: isPendingEdit,
+    isLoadingRemove: isPendingRemove,
     accountBeingEdited,
+    isDeleteModalOpen,
+    toogleDeleteModal,
+    handleDeleteAccount
   };
 }
