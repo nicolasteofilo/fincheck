@@ -1,21 +1,17 @@
-import { ChevronUpIcon } from "@radix-ui/react-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { MONTHS } from "../../../../../app/config/constants.ts";
 import emptyStateIlustration from "../../../../../assets/empty-state.svg";
 import { cn } from "../../../../../utils/cn";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { formatDate } from "../../../../../utils/formatDate.ts";
-import { Dropdown } from "../../../../components/Dropdown.tsx";
 import { Spinner } from "../../../../components/Spinner";
-import { ExpensesIcon } from "../../../../components/icons/ExpensesIcon.tsx";
 import { FilterIcon } from "../../../../components/icons/FilterIcon.tsx";
-import { IncomeIcon } from "../../../../components/icons/IncomeIcon.tsx";
-import { TransactionsIcon } from "../../../../components/icons/TransactionsIcon.tsx";
 import { CategoryIcon } from "../../../../components/icons/categories/CategoryIcon";
 import { useDashboard } from "../DashboardContext/useDashboard";
 import { FiltersDialog } from "./FiltersDialog/index.tsx";
 import { SliderNavigation } from "./SliderNavigation.tsx";
 import { SliderOption } from "./SliderOption.tsx";
+import { TransactionsTypeDropdown } from "./TransactionsTypeDropdown.tsx";
 import { useTransactionsController } from "./useTransactionsController";
 
 export function Transactions() {
@@ -53,30 +49,12 @@ export function Transactions() {
 
           <header>
             <div className="flex items-center justify-between">
-              <Dropdown.Root>
-                <Dropdown.Trigger>
-                  <button className="flex gap-2 items-center">
-                    <TransactionsIcon />
-                    <span className="text-gray-800 text-sm tracking-[-0.5px] font-medium">Transações</span>
-                    <ChevronUpIcon className="text-gray-900" />
-                  </button>
-                </Dropdown.Trigger>
-
-                <Dropdown.Content className="mt-2 w-[279px]">
-                  <Dropdown.Item className="gap-2">
-                    <IncomeIcon />
-                    Receitas
-                  </Dropdown.Item>
-                  <Dropdown.Item className="gap-2">
-                    <ExpensesIcon />
-                    Despesas
-                  </Dropdown.Item>
-                  <Dropdown.Item className="gap-2">
-                    <TransactionsIcon />
-                    Transações
-                  </Dropdown.Item>
-                </Dropdown.Content>
-              </Dropdown.Root>
+              <TransactionsTypeDropdown
+                onSelect={(type) => {
+                  handleChangeFilters('type', type)
+                }}
+                selectedType={filters.type}
+              />
               <button className="flex items-center" onClick={handleOpenFiltersDialog}>
                 <FilterIcon />
               </button>
