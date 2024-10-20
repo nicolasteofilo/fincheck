@@ -3,7 +3,7 @@ import { Button } from "../../../../components/Button";
 import { DatePickerInput } from "../../../../components/DatePickerInput";
 import { Dialog } from "../../../../components/Dialog";
 import { Input } from "../../../../components/Input";
-import { InputCurreny } from "../../../../components/InputCurreny";
+import { InputCurrency } from "../../../../components/InputCurreny";
 import { Select } from "../../../../components/Select";
 import { useNewTransactionDialog } from "./useNewTransactionDialogController";
 
@@ -50,9 +50,8 @@ export function NewTransactionDialog() {
             <Controller
               control={control}
               name="value"
-              defaultValue="0"
-              render={({ field: { onChange, value } }) => (
-                <InputCurreny onChange={onChange} value={value} className="w-full" error={errors.value?.message} />
+              render={({ field: { onChange } }) => (
+                <InputCurrency onChange={onChange} error={errors.value?.message} />
               )}
             />
           </div>

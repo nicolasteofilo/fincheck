@@ -6,7 +6,7 @@ import { ConfirmDeleteModal } from "../../../../components/ConfirmDeleteModal";
 import { Dialog } from "../../../../components/Dialog";
 import { TrashIcon } from "../../../../components/icons/TrashIcon";
 import { Input } from "../../../../components/Input";
-import { InputCurreny } from "../../../../components/InputCurreny";
+import { InputCurrency } from "../../../../components/InputCurreny";
 import { Select } from "../../../../components/Select";
 import { useEditAccountDialogController } from "./useEditAccountDialogController";
 
@@ -50,7 +50,7 @@ export function EditAccountDialog() {
             <span className="text-gray-600 tracking-[-0.5px] text-lg">R$</span>
             <Controller
               render={({ field: { onChange, value } }) => (
-                <InputCurreny className="w-full" onChange={onChange} value={value as number} />
+                <InputCurrency onChange={onChange} value={value as number} />
               )}
               name="initialBalance"
               control={control}

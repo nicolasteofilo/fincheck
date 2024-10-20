@@ -1,7 +1,12 @@
-export function currenytStringToNumber(value: string | number | null | undefined): number | void {
-  if (typeof value === 'number') return value;
+export function currencyStringToNumber(value: string | number) {
+  if (value === undefined) return 0;
 
-  if(typeof value ===  'number' || typeof value ===  'string') {
-    return Number(value.replace(/\./g, "").replace(/,/g, "."));
+  if (typeof value === "number") {
+    return value;
   }
+
+  const sanitizedString = value.replace(/\./g, "").replace(",", ".");
+  const toNumber = Number(sanitizedString);
+
+  return toNumber;
 }

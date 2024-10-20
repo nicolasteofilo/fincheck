@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTransactions } from "../../../../../app/hooks/useTransactions";
 
 export function useTransactionsController() {
   const [sliderState, setSliderState] = useState({
@@ -7,6 +8,7 @@ export function useTransactionsController() {
   });
 
   const [isFiltersDialogOpen, setIsFiltersDialogOpen] = useState(false);
+  const { transactions, isFetching } = useTransactions();
 
   function handleOpenFiltersDialog() {
     setIsFiltersDialogOpen(true);
@@ -20,8 +22,8 @@ export function useTransactionsController() {
     sliderState,
     setSliderState,
     isInitialLoading: false,
-    isLoading: false,
-    transactions: [1234],
+    isLoading: isFetching,
+    transactions: transactions,
     isFiltersDialogOpen,
     handleOpenFiltersDialog,
     handleCloseFiltersDialog,

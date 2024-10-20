@@ -8,11 +8,11 @@ import { useBankAccounts } from "../../../../../app/hooks/useBankAccounts";
 import { useCategories } from "../../../../../app/hooks/useCategories";
 import { transactionsService } from "../../../../../app/services/transactionsService";
 import { CreateTransactionParams } from "../../../../../app/services/transactionsService/create";
-import { currenytStringToNumber } from "../../../../../utils/currenytStringToNumber";
+import { currencyStringToNumber } from "../../../../../utils/currenytStringToNumber";
 import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
 const schema = z.object({
-  value: z.union([z.string().min(1, "Informe o valor"), z.number()]),
+  value: z.number().min(1, "Valor é obrigatório"),
   name: z
     .string({
       message: "Informe o nome",
@@ -37,7 +37,6 @@ export function useNewTransactionDialog() {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      value: "0,00",
       date: new Date(),
     },
   });
@@ -47,16 +46,17 @@ export function useNewTransactionDialog() {
       return transactionsService.create(data);
     },
   });
-  
+
   const { accounts } = useBankAccounts();
   const { categories } = useCategories();
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
-      const newData = { ...data, type: newTransactionType, value: currenytStringToNumber(data.value) || 0 };
-      await mutateAsync({ ...newData });
+      const fomatedData = { ...data, type: newTransactionType, value: currencyStringToNumber(data.value) || 0 };
+      await mutateAsync({ ...fomatedData });
 
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
       toast.success("Transação cadastrada com sucesso!");
       reset();
       closeNewTransactionDialog();

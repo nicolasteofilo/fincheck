@@ -7,7 +7,7 @@ import { z } from "zod";
 import { bankAccountsService } from "../../../../../app/services/bankAccountsService";
 import { RemoveBankAccountParams } from "../../../../../app/services/bankAccountsService/remove";
 import { UpdateBankAccountParams } from "../../../../../app/services/bankAccountsService/update";
-import { currenytStringToNumber } from "../../../../../utils/currenytStringToNumber";
+import { currencyStringToNumber } from "../../../../../utils/currenytStringToNumber";
 import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
 const schema = z.object({
@@ -15,8 +15,6 @@ const schema = z.object({
   initialBalance: z.union([
     z.string().min(1, "Saldo inicial é obrigatório"),
     z.number(),
-    z.null(),
-    z.undefined(),
   ]),
   type: z.enum(["INVESTIMENT", "CASH", "CHECKING"]),
   color: z.string().min(1, "Cor é obrigatória"),
@@ -62,7 +60,7 @@ export function useEditAccountDialogController() {
       await updateAccount({
         ...data,
         type: data.type === "INVESTIMENT" ? "INVESTMENT" : data.type,
-        initialBalance: currenytStringToNumber(data.initialBalance) as number,
+        initialBalance: currencyStringToNumber(data.initialBalance),
         id: accountBeingEdited!.id
       });
 

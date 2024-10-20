@@ -1,12 +1,12 @@
+import emptyStateIlustration from "../../../../../assets/empty-state.svg";
 import { cn } from "../../../../../utils/cn";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
 import { Spinner } from "../../../../components/Spinner";
 import { CategoryIcon } from "../../../../components/icons/categories/CategoryIcon";
 import { useDashboard } from "../DashboardContext/useDashboard";
+import { FiltersDialog } from "./FiltersDialog/index.tsx";
 import { Header } from "./Header";
 import { useTransactionsController } from "./useTransactionsController";
-import emptyStateIlustration from "../../../../../assets/empty-state.svg";
-import { FiltersDialog } from "./FiltersDialog/index.tsx";
 
 export function Transactions() {
   const {
