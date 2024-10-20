@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function useFiltersDialog() {
+export function useFiltersDialogController() {
   const [selectedBankAccountId, setSelectedBankAccountId] = useState<
     null | string
   >(null);

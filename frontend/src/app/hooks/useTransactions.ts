@@ -1,4 +1,4 @@
-import { QueryObserverResult, RefetchOptions, useQuery } from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Transaction } from "../entities/Transaction";
 import { transactionsService } from "../services/transactionsService";
@@ -9,19 +9,27 @@ type IResponseUseTransactions = {
   isFetching: boolean;
   isInitialFetch: boolean;
   refetchTransactions: (options?: RefetchOptions) => Promise<QueryObserverResult<TransactionsResponse, Error>>;
+  invalidateTransactions: () => void;
 };
 
-export function useTransactions(filters: TransactionsFilter): IResponseUseTransactions {
+export function useTransactions(filters?: TransactionsFilter): IResponseUseTransactions {
+  const queryClient = useQueryClient();
+  const key = ["transactions"];
+
   const { data, isFetching, isLoading, refetch } = useQuery({
-    queryKey: ["transactions"],
-    queryFn: () => transactionsService.getAll(filters),
-    enabled: false,
+    queryKey: key,
+    queryFn: () => transactionsService.getAll(filters!),
   });
+
+  function invalidateTransactions() {
+    queryClient.invalidateQueries({ queryKey: key })
+  }
 
   return {
     transactions: data ?? [],
     isFetching,
     isInitialFetch: isLoading,
     refetchTransactions: refetch,
+    invalidateTransactions,
   };
 }

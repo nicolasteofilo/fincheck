@@ -4,7 +4,7 @@ import { TransactionsFilter } from "../../../../../../app/services/transactionsS
 import { cn } from "../../../../../../utils/cn";
 import { Button } from "../../../../../components/Button";
 import { Dialog } from "../../../../../components/Dialog";
-import { useFiltersDialog } from "./useFiltersDialog";
+import { useFiltersDialogController } from "./useFiltersDialogController";
 
 interface FiltersDialogProps {
   open: boolean;
@@ -13,10 +13,11 @@ interface FiltersDialogProps {
 }
 
 export function FiltersDialog({ open, onClose, handleChangeFilters }: FiltersDialogProps) {
-  const { selectedBankAccountId, handleSelectBankAccountId, selectedYear, handleChangeYear } = useFiltersDialog();
+
+  const { selectedBankAccountId, handleSelectBankAccountId, selectedYear, handleChangeYear } = useFiltersDialogController();
   const { accounts } = useBankAccounts();
 
-  function onSaveChanges() {
+  function onApplyChanges() {
     handleChangeFilters("bankAccountId", selectedBankAccountId!);
     handleChangeFilters("year", selectedYear!);
     onClose();
@@ -69,7 +70,7 @@ export function FiltersDialog({ open, onClose, handleChangeFilters }: FiltersDia
         </div>
       </div>
 
-      <Button text="Aplicar Filtros" className="mt-10" onClick={onSaveChanges} />
+      <Button text="Aplicar Filtros" className="mt-10" onClick={onApplyChanges} />
     </Dialog>
   );
 }

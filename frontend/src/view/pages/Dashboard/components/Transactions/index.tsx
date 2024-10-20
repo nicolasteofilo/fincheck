@@ -41,17 +41,19 @@ export function Transactions() {
 
       {!isInitialLoading && (
         <>
-          <FiltersDialog
-            open={isFiltersDialogOpen}
-            onClose={handleCloseFiltersDialog}
-            handleChangeFilters={handleChangeFilters}
-          />
+          {isFiltersDialogOpen && (
+            <FiltersDialog
+              open={isFiltersDialogOpen}
+              onClose={handleCloseFiltersDialog}
+              handleChangeFilters={handleChangeFilters}
+            />
+          )}
 
           <header>
             <div className="flex items-center justify-between">
               <TransactionsTypeDropdown
                 onSelect={(type) => {
-                  handleChangeFilters('type', type)
+                  handleChangeFilters("type", type);
                 }}
                 selectedType={filters.type}
               />

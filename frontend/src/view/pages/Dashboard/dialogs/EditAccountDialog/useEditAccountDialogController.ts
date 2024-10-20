@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import { useBankAccounts } from "../../../../../app/hooks/useBankAccounts";
 import { bankAccountsService } from "../../../../../app/services/bankAccountsService";
 import { RemoveBankAccountParams } from "../../../../../app/services/bankAccountsService/remove";
 import { UpdateBankAccountParams } from "../../../../../app/services/bankAccountsService/update";
@@ -12,10 +13,7 @@ import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
 const schema = z.object({
   name: z.string().min(1, "Nome da conta é obrigatório"),
-  initialBalance: z.union([
-    z.string().min(1, "Saldo inicial é obrigatório"),
-    z.number(),
-  ]),
+  initialBalance: z.union([z.string().min(1, "Saldo inicial é obrigatório"), z.number()]),
   type: z.enum(["INVESTIMENT", "CASH", "CHECKING"]),
   color: z.string().min(1, "Cor é obrigatória"),
 });
@@ -36,12 +34,13 @@ export function useEditAccountDialogController() {
     defaultValues: {
       color: accountBeingEdited?.color,
       name: accountBeingEdited?.name,
-      initialBalance: accountBeingEdited?.initialBalance
+      initialBalance: accountBeingEdited?.initialBalance,
     },
   });
 
-  const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const { invalidateBankAccount } = useBankAccounts();
 
   const { isPending: isPendingEdit, mutateAsync: updateAccount } = useMutation({
     mutationFn: async (data: UpdateBankAccountParams) => {
@@ -61,10 +60,10 @@ export function useEditAccountDialogController() {
         ...data,
         type: data.type === "INVESTIMENT" ? "INVESTMENT" : data.type,
         initialBalance: currencyStringToNumber(data.initialBalance),
-        id: accountBeingEdited!.id
+        id: accountBeingEdited!.id,
       });
 
-      queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
+      invalidateBankAccount();
       toast.success("Conta editada com sucesso!");
       reset();
       closeEditAccountDialog();
@@ -74,7 +73,7 @@ export function useEditAccountDialogController() {
   });
 
   function toogleDeleteModal() {
-    setIsDeleteModalOpen((prevState) => !prevState)
+    setIsDeleteModalOpen((prevState) => !prevState);
   }
 
   async function handleDeleteAccount() {
@@ -83,7 +82,7 @@ export function useEditAccountDialogController() {
       toogleDeleteModal();
       closeEditAccountDialog();
       toast.success("Conta deletada com sucesso!");
-      queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
+      invalidateBankAccount();
     } catch (error) {
       toast.error("Erro ao excluir a conta, tente novamente!");
     }
@@ -101,6 +100,6 @@ export function useEditAccountDialogController() {
     accountBeingEdited,
     isDeleteModalOpen,
     toogleDeleteModal,
-    handleDeleteAccount
+    handleDeleteAccount,
   };
 }
