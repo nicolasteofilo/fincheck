@@ -1,11 +1,21 @@
+import { ChevronUpIcon } from "@radix-ui/react-icons";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { MONTHS } from "../../../../../app/config/constants.ts";
 import emptyStateIlustration from "../../../../../assets/empty-state.svg";
 import { cn } from "../../../../../utils/cn";
 import { formatCurrency } from "../../../../../utils/formatCurrency";
+import { formatDate } from "../../../../../utils/formatDate.ts";
+import { Dropdown } from "../../../../components/Dropdown.tsx";
 import { Spinner } from "../../../../components/Spinner";
+import { ExpensesIcon } from "../../../../components/icons/ExpensesIcon.tsx";
+import { FilterIcon } from "../../../../components/icons/FilterIcon.tsx";
+import { IncomeIcon } from "../../../../components/icons/IncomeIcon.tsx";
+import { TransactionsIcon } from "../../../../components/icons/TransactionsIcon.tsx";
 import { CategoryIcon } from "../../../../components/icons/categories/CategoryIcon";
 import { useDashboard } from "../DashboardContext/useDashboard";
 import { FiltersDialog } from "./FiltersDialog/index.tsx";
-import { Header } from "./Header";
+import { SliderNavigation } from "./SliderNavigation.tsx";
+import { SliderOption } from "./SliderOption.tsx";
 import { useTransactionsController } from "./useTransactionsController";
 
 export function Transactions() {
@@ -16,6 +26,10 @@ export function Transactions() {
     isFiltersDialogOpen,
     handleOpenFiltersDialog,
     handleCloseFiltersDialog,
+    handleChangeFilters,
+    filters,
+    sliderState,
+    setSliderState,
   } = useTransactionsController();
   const { areValuesVisible } = useDashboard();
 
@@ -31,8 +45,72 @@ export function Transactions() {
 
       {!isInitialLoading && (
         <>
-          <FiltersDialog open={isFiltersDialogOpen} onClose={handleCloseFiltersDialog} />
-          <Header handleOpenFiltersDialog={handleOpenFiltersDialog} />
+          <FiltersDialog
+            open={isFiltersDialogOpen}
+            onClose={handleCloseFiltersDialog}
+            handleChangeFilters={handleChangeFilters}
+          />
+
+          <header>
+            <div className="flex items-center justify-between">
+              <Dropdown.Root>
+                <Dropdown.Trigger>
+                  <button className="flex gap-2 items-center">
+                    <TransactionsIcon />
+                    <span className="text-gray-800 text-sm tracking-[-0.5px] font-medium">Transações</span>
+                    <ChevronUpIcon className="text-gray-900" />
+                  </button>
+                </Dropdown.Trigger>
+
+                <Dropdown.Content className="mt-2 w-[279px]">
+                  <Dropdown.Item className="gap-2">
+                    <IncomeIcon />
+                    Receitas
+                  </Dropdown.Item>
+                  <Dropdown.Item className="gap-2">
+                    <ExpensesIcon />
+                    Despesas
+                  </Dropdown.Item>
+                  <Dropdown.Item className="gap-2">
+                    <TransactionsIcon />
+                    Transações
+                  </Dropdown.Item>
+                </Dropdown.Content>
+              </Dropdown.Root>
+              <button className="flex items-center" onClick={handleOpenFiltersDialog}>
+                <FilterIcon />
+              </button>
+            </div>
+
+            <div className="mt-6 relative z-[0]">
+              <Swiper
+                slidesPerView={3}
+                centeredSlides
+                initialSlide={filters.month}
+                onAfterInit={(swiper) => {
+                  setSliderState({
+                    isBeginning: swiper.isBeginning,
+                    isEnd: swiper.isEnd,
+                  });
+                }}
+                onSlideChange={(swiper) => {
+                  handleChangeFilters("month", swiper.realIndex);
+
+                  setSliderState({
+                    isBeginning: swiper.isBeginning,
+                    isEnd: swiper.isEnd,
+                  });
+                }}
+              >
+                <SliderNavigation isBeginning={sliderState.isBeginning} isEnd={sliderState.isEnd} />
+                {MONTHS.map((month, index) => (
+                  <SwiperSlide key={month}>
+                    {({ isActive }) => <SliderOption month={month} isActive={isActive} index={index} />}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </header>
 
           <div className="mt-4 space-y-2 flex-1 overflow-y-auto">
             {(!hasTransactions || isLoading) && (
@@ -41,38 +119,41 @@ export function Transactions() {
 
                 {!hasTransactions && !isLoading && (
                   <>
-                    <img
-                      src={emptyStateIlustration}
-                      alt="Nenhuma transação encontrada"
-                    />
-                    <p className="text-gray-700 mt-4">
-                      Não encontramos nenhuma transação!
-                    </p>
+                    <img src={emptyStateIlustration} alt="Nenhuma transação encontrada" />
+                    <p className="text-gray-700 mt-4">Não encontramos nenhuma transação!</p>
                   </>
                 )}
               </div>
             )}
 
             {hasTransactions && !isLoading && (
-              <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
-                <div className="flex-1 flex items-center gap-3">
-                  <CategoryIcon type="expense" />
-                  <div>
-                    <strong className="text-gray-800 font-bold tracking-[-0.5px] block">
-                      Almoço
-                    </strong>
-                    <span className="text-sm text-gray-600">04/06/2023</span>
-                  </div>
-                </div>
-                <span
-                  className={cn(
-                    "text-red-800 tracking-[-0.5px] font-medium",
-                    !areValuesVisible && "blur-sm"
-                  )}
-                >
-                  -{formatCurrency(1000.0)}
-                </span>
-              </div>
+              <>
+                {transactions.map(({ name, type, date, value, category, id }) => {
+                  const typeLower = type.toLocaleLowerCase() as "income" | "expense";
+
+                  return (
+                    <div key={id} className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
+                      <div className="flex-1 flex items-center gap-3">
+                        <CategoryIcon type={typeLower} category={category?.icon} />
+                        <div>
+                          <strong className="text-gray-800 font-bold tracking-[-0.5px] block">{name}</strong>
+                          <span className="text-sm text-gray-600">{formatDate(new Date(date))}</span>
+                        </div>
+                      </div>
+                      <span
+                        className={cn(
+                          "tracking-[-0.5px] font-medium",
+                          !areValuesVisible && "blur-sm",
+                          type === "EXPENSE" ? "text-red-800" : "text-green-800"
+                        )}
+                      >
+                        {type === "EXPENSE" ? "-" : "+"}
+                        {formatCurrency(value)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </>
             )}
           </div>
         </>

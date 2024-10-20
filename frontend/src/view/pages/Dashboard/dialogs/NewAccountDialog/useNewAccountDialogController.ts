@@ -40,7 +40,6 @@ export function useNewAccountDialogController() {
     try {
       await mutateAsync({
         ...data,
-        initialBalance: 10000.52,
       });
 
       queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });

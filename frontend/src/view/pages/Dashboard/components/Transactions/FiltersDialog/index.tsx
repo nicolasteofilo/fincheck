@@ -1,44 +1,38 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
-import { Dialog } from "../../../../../components/Dialog";
-import { Button } from "../../../../../components/Button";
-import { useFiltersDialog } from "./useFiltersDialog";
+import { useBankAccounts } from "../../../../../../app/hooks/useBankAccounts";
+import { TransactionsFilter } from "../../../../../../app/services/transactionsService/getAll";
 import { cn } from "../../../../../../utils/cn";
+import { Button } from "../../../../../components/Button";
+import { Dialog } from "../../../../../components/Dialog";
+import { useFiltersDialog } from "./useFiltersDialog";
 
 interface FiltersDialogProps {
   open: boolean;
   onClose(): void;
+  handleChangeFilters: <K extends keyof TransactionsFilter>(filterName: K, value: TransactionsFilter[K]) => void;
 }
 
-const mockedAccounts = [
-  {
-    id: "123",
-    name: "Nubank",
-  },
-  {
-    id: "345",
-    name: "XP Investimentos",
-  },
-];
+export function FiltersDialog({ open, onClose, handleChangeFilters }: FiltersDialogProps) {
+  const { selectedBankAccountId, handleSelectBankAccountId, selectedYear, handleChangeYear } = useFiltersDialog();
+  const { accounts } = useBankAccounts();
 
-export function FiltersDialog({ open, onClose }: FiltersDialogProps) {
-  const {
-    selectedBankAccountId,
-    handleSelectBankAccountId,
-    selectedYear,
-    handleChangeYear,
-  } = useFiltersDialog();
+  function onSaveChanges() {
+    handleChangeFilters("bankAccountId", selectedBankAccountId!);
+    handleChangeFilters("year", selectedYear!);
+    onClose();
+  }
 
   return (
     <Dialog open={open} onClose={onClose} title="Filtros">
       <div className="mt-10">
-        <span className="text-gray-800 text-lg font-bold tracking-[-1px] focus:outline-none mt-2">
-          Conta
-        </span>
+        <span className="text-gray-800 text-lg font-bold tracking-[-1px] focus:outline-none mt-2">Conta</span>
         <div className="space-y-2 mt-2">
-          {mockedAccounts.map((account) => (
+          {accounts.map((account) => (
             <button
               key={account.id}
-              onClick={() => handleSelectBankAccountId(account.id)}
+              onClick={() => {
+                handleSelectBankAccountId(account.id);
+              }}
               className={cn(
                 "p-2 rounded-2xl w-full text-left text-gray-800 hover:bg-gray-50 transition-colors",
                 account.id === selectedBankAccountId && "!bg-gray-200"
@@ -50,26 +44,32 @@ export function FiltersDialog({ open, onClose }: FiltersDialogProps) {
         </div>
       </div>
       <div className="mt-10 text-gray-800">
-        <span className="text-lg font-bold tracking-[-1px] focus:outline-none mt-2">
-          Ano
-        </span>
+        <span className="text-lg font-bold tracking-[-1px] focus:outline-none mt-2">Ano</span>
 
         <div className="w-[210px] mt-2 flex items-center justify-between">
-          <button className="w-12 h-12 flex items-center justify-center" onClick={() => handleChangeYear(-1)}>
+          <button
+            className="w-12 h-12 flex items-center justify-center"
+            onClick={() => {
+              handleChangeYear(-1);
+            }}
+          >
             <ChevronLeftIcon className="w-6 h-6" />
           </button>
           <div className="flex-1 items-center justify-center text-center">
-            <span className="text-sm font-bold tracking-[-0.5px]">
-              {selectedYear}
-            </span>
+            <span className="text-sm font-bold tracking-[-0.5px]">{selectedYear}</span>
           </div>
-          <button className="w-12 h-12 flex items-center justify-center" onClick={() => handleChangeYear(1)}>
+          <button
+            className="w-12 h-12 flex items-center justify-center"
+            onClick={() => {
+              handleChangeYear(1);
+            }}
+          >
             <ChevronRightIcon className="w-6 h-6" />
           </button>
         </div>
       </div>
 
-      <Button text="Aplicar Filtros" className="mt-10" />
+      <Button text="Aplicar Filtros" className="mt-10" onClick={onSaveChanges} />
     </Dialog>
   );
 }

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTransactions } from "../../../../../app/hooks/useTransactions";
+import { TransactionsFilter } from "../../../../../app/services/transactionsService/getAll";
 
 export function useTransactionsController() {
   const [sliderState, setSliderState] = useState({
@@ -8,7 +9,20 @@ export function useTransactionsController() {
   });
 
   const [isFiltersDialogOpen, setIsFiltersDialogOpen] = useState(false);
-  const { transactions, isFetching } = useTransactions();
+  const [filters, setFilters] = useState<TransactionsFilter>({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+  });
+
+  const { transactions, isFetching, isInitialFetch, refetchTransactions } = useTransactions(filters);
+
+  function handleChangeFilters<K extends keyof TransactionsFilter>(filterName: K, value: TransactionsFilter[K]) {
+    if (value === filters[filterName]) return; // no re-renders
+    setFilters((prevState) => ({
+      ...prevState,
+      [filterName]: value,
+    }));
+  }
 
   function handleOpenFiltersDialog() {
     setIsFiltersDialogOpen(true);
@@ -18,14 +32,20 @@ export function useTransactionsController() {
     setIsFiltersDialogOpen(false);
   }
 
+  useEffect(() => {
+    refetchTransactions();
+  }, [filters, refetchTransactions]);
+
   return {
     sliderState,
     setSliderState,
-    isInitialLoading: false,
+    isInitialLoading: isInitialFetch,
     isLoading: isFetching,
-    transactions: transactions,
+    transactions: transactions ?? [],
     isFiltersDialogOpen,
     handleOpenFiltersDialog,
     handleCloseFiltersDialog,
+    handleChangeFilters,
+    filters,
   };
 }
