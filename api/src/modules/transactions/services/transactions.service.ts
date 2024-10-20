@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTransactionDto } from '../dto/create-transaction.dto';
-import { UpdateTransactionDto } from '../dto/update-transaction.dto';
 import { TransactionsRepository } from 'src/shared/database/repositories/transactions.repositories';
 import { ValidateBankAccountOwnershipService } from '../../bank-accounts/services/validade-bank-account-ownership.service';
 import { ValidateCategoryOwnershipService } from '../../categories/services/validade-category-ownership.service';
-import { ValidateTransactionOwnershipService } from './validade-transaction-ownership.service';
+import { CreateTransactionDto } from '../dto/create-transaction.dto';
+import { UpdateTransactionDto } from '../dto/update-transaction.dto';
 import { TransactionType } from '../entities/Transaction';
+import { ValidateTransactionOwnershipService } from './validade-transaction-ownership.service';
 
 @Injectable()
 export class TransactionsService {
@@ -38,40 +38,35 @@ export class TransactionsService {
     });
   }
 
-  async findAllByUserId(
+  findAllByUserId(
     userId: string,
-    filters: { month: number; year: number; bankAccountId?: string; type?: TransactionType },
+    filters: {
+      month: number;
+      year: number;
+      bankAccountId?: string;
+      type?: TransactionType;
+    },
   ) {
-    const transactions = await this.transactionsRepo.findMany({
+    return this.transactionsRepo.findMany({
       where: {
         userId,
+        bankAccountId: filters.bankAccountId,
+        type: filters.type,
         date: {
           gte: new Date(Date.UTC(filters.year, filters.month)),
           lt: new Date(Date.UTC(filters.year, filters.month + 1)),
         },
-        bankAccountId: {
-          equals: filters.bankAccountId,
-        },
-        type: filters?.type,
       },
-      select: {
-        id: true,
-        userId: true,
-        bankAccountId: true,
-        categoryId: true,
-        name: true,
-        value: true,
-        date: true,
-        type: true,
-        bankAccount: {
+      include: {
+        category: {
           select: {
+            id: true,
             name: true,
+            icon: true,
           },
         },
       },
     });
-
-    return transactions;
   }
 
   async update(userId: string, transactionId: string, updateTransactionDto: UpdateTransactionDto) {
