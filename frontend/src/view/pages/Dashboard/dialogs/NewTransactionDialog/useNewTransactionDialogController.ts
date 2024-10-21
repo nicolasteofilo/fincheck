@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -49,14 +50,18 @@ export function useNewTransactionDialog() {
   });
 
   const { accounts, invalidateBankAccounts } = useBankAccounts();
-  const { categories } = useCategories();
+  const { categories: categoriesList } = useCategories();
+
+  const categories = useMemo(() => {
+    return categoriesList?.filter((category) => category.type === newTransactionType);
+  }, [categoriesList, newTransactionType]);
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
       const fomatedData = { ...data, type: newTransactionType, value: currencyStringToNumber(data.value) || 0 };
       await mutateAsync({ ...fomatedData });
 
-      queryClient.refetchQueries({ queryKey: ["transactions"] })
+      queryClient.invalidateQueries({ queryKey: ["transactions"] })
       invalidateBankAccounts();
       onClose();
       toast.success("Transação cadastrada com sucesso!");

@@ -1,10 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { useBankAccounts } from "../../../../../app/hooks/useBankAccounts";
 import { bankAccountsService } from "../../../../../app/services/bankAccountsService";
 import { RemoveBankAccountParams } from "../../../../../app/services/bankAccountsService/remove";
 import { UpdateBankAccountParams } from "../../../../../app/services/bankAccountsService/update";
@@ -34,13 +33,12 @@ export function useEditAccountDialogController() {
     defaultValues: {
       color: accountBeingEdited?.color,
       name: accountBeingEdited?.name,
-      initialBalance: accountBeingEdited?.initialBalance,
+      initialBalance: currencyStringToNumber(accountBeingEdited!.initialBalance),
     },
   });
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  const { invalidateBankAccount } = useBankAccounts();
+  const queryClient = useQueryClient();
 
   const { isPending: isPendingEdit, mutateAsync: updateAccount } = useMutation({
     mutationFn: async (data: UpdateBankAccountParams) => {
@@ -63,12 +61,13 @@ export function useEditAccountDialogController() {
         id: accountBeingEdited!.id,
       });
 
-      invalidateBankAccount();
+      queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
       toast.success("Conta editada com sucesso!");
       reset();
       closeEditAccountDialog();
     } catch {
       toast.error("Erro ao editar a conta, tente novamente!");
+      closeEditAccountDialog();
     }
   });
 
@@ -82,9 +81,11 @@ export function useEditAccountDialogController() {
       toogleDeleteModal();
       closeEditAccountDialog();
       toast.success("Conta deletada com sucesso!");
-      invalidateBankAccount();
+      queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
     } catch (error) {
       toast.error("Erro ao excluir a conta, tente novamente!");
+      closeEditAccountDialog();
     }
   }
 

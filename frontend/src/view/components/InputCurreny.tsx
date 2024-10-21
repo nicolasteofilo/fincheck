@@ -15,7 +15,7 @@ export function InputCurrency({ error, onChange, value, name }: InputCurrencyPro
     <div>
       <InputCurrencyLib
         className={cn("text-gray-800 text-[32px] font-bold tracking-[0.5px] outline-none w-full")}
-        onChange={(value) => onChange ? onChange(value) : null}
+        onChange={(value) => (onChange ? onChange(value) : null)}
         value={value}
         name={name}
       />

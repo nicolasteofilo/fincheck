@@ -34,7 +34,8 @@ export function InputCurrency({ className, id, name, onChange, value }: InputCur
         className={className}
         onValueChange={handleOnValueChange}
         decimalsLimit={6}
-        value={value}
+        // value={value}
+        defaultValue={value}
         step={1}
         placeholder="0,00"
       />

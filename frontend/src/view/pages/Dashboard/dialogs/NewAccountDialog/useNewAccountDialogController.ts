@@ -32,7 +32,7 @@ export function useNewAccountDialogController() {
 
   const { isPending, mutateAsync } = useMutation({
     mutationFn: async (data: CreateBankAccountParams) => {
-      return bankAccountsService.create(data);
+      return bankAccountsService.create({ ...data, type: data.type === "INVESTMENT" ? "INVESTIMENT" : data.type });
     },
   });
 
@@ -45,7 +45,7 @@ export function useNewAccountDialogController() {
       });
 
       invalidateBankAccounts();
-      
+
       toast.success("Conta foi cadastrada com sucesso!");
       closeNewAccountDialog();
       reset();

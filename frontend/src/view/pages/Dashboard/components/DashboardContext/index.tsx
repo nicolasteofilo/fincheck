@@ -21,7 +21,7 @@ interface DashboardContextValue {
 export const DashboardContext = createContext({} as DashboardContextValue);
 
 export function DashboardProvider({ children }: { children: React.ReactNode }) {
-  const [areValuesVisible, setAreValuesVisible] = useState(true);
+const [areValuesVisible, setAreValuesVisible] = useState(true);
   const [isNewAccountDialogOpen, setIsNewAccountDialogOpen] = useState(false);
   const [isEditAccountDialogOpen, setIsEditAccountDialogOpen] = useState(false);
   const [isNewTransactionDialogOpen, setIsNewTransactionDialogOpen] = useState(false);
