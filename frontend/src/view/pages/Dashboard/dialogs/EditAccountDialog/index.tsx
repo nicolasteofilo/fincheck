@@ -30,10 +30,12 @@ export function EditAccountDialog() {
       title="Editar Conta"
       open={isEditAccountDialogOpen}
       onClose={closeEditAccountDialog}
-      rightAction={(
-        <button onClick={toogleDeleteModal}><TrashIcon className="w-6 h-6 text-red-900" /></button>
-      )}>
-
+      rightAction={
+        <button onClick={toogleDeleteModal}>
+          <TrashIcon className="w-6 h-6 text-red-900" />
+        </button>
+      }
+    >
       <ConfirmDeleteModal
         open={isDeleteModalOpen}
         onClose={toogleDeleteModal}
@@ -49,9 +51,7 @@ export function EditAccountDialog() {
           <div className="flex items-center gap-2">
             <span className="text-gray-600 tracking-[-0.5px] text-lg">R$</span>
             <Controller
-              render={({ field: { onChange, value } }) => (
-                <InputCurrency onChange={onChange} value={value as number} />
-              )}
+              render={({ field: { onChange, value } }) => <InputCurrency onChange={onChange} value={value as number} />}
               name="initialBalance"
               control={control}
             />
