@@ -171,6 +171,21 @@ yarn dev
 ## Roadmap
 
 - [x] Create a account in application
+- [x] Log in to the application with an account
+- [ ] Transactions
+  - [x] Create transaction
+  - [x] List transaction
+  - [x] Edit transaction
+  - [x] Delete transaction
+- [ ] Bank Accounts
+  - [x] Create bank account with initial balance
+  - [x] Edit bank account
+  - [x] Delete bank account
+- [ ] Filters
+  - [x] Filter transaction by bank account
+  - [x] Filter transaction by month and year
+  - [x] Filter transaction by month and year
+
 
 See the [open issues](https://github.com/nicolasteofilo/fincheck/issues) for a full list of proposed features (and known issues).
 
