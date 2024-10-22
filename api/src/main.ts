@@ -1,7 +1,8 @@
-import 'dotenv/config';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import 'dotenv/config';
+import { AppModule } from './app.module';
+import { env } from './shared/config/env';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +12,6 @@ async function bootstrap() {
     origin: '*'
   })
 
-  await app.listen(3000);
+  await app.listen(env.PORT ? Number(env.PORT) : 3333);
 }
 bootstrap();

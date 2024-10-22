@@ -9,11 +9,15 @@ class Env {
   @IsString()
   @IsNotEmpty()
   DATABASE_URL: string;
+
+  @IsString()
+  PORT: string;
 }
 
 export const env: Env = plainToInstance(Env, {
   JWT_SECRET: process.env.JWT_SECRET,
   DATABASE_URL: process.env.DATABASE_URL,
+  PORT: process.env.PORT,
 });
 
 const errors = validateSync(env);
