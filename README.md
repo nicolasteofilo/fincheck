@@ -44,7 +44,7 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## About The Project
+### About The Project
 
 Fincheck is a modern and complete platform that will help you organize your finances in an uncomplicated way!
 
@@ -54,21 +54,51 @@ Fincheck is a modern and complete platform that will help you organize your fina
 
 ### Built With
 
-#### Front-end
+- [![TypeScript][TypeScript]][TypeScript-url]
+
+##### Front-end
 
 - [![Vite][Vite]][Vite-url]
 - [![React][React.js]][React-url]
 - [![ReactQuery][ReactQuery]][ReactQuery-url]
 - [![Tailwindcss][Tailwindcss]][Tailwindcss-url]
 
+#### Back-end
+- [![Nest][Nest]][Nest-url]
+- [![Prisma][Prisma]][Prisma-url]
+- [![PostgreSQL][PostgreSQL]][PostgreSQL-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Features
+
+- [x] Create a account in application
+- [x] Log in to the application with an account
+- [ ] Transactions
+  - [x] Create transaction
+  - [x] List transaction
+  - [x] Edit transaction
+  - [x] Delete transaction
+- [ ] Bank Accounts
+  - [x] Create bank account with initial balance
+  - [x] Edit bank account
+  - [x] Delete bank account
+- [ ] Filters
+  - [x] Filter transaction by bank account
+  - [x] Filter transaction by month and year
+  - [x] Filter transaction by month and year
+
+
+See the [open issues](https://github.com/nicolasteofilo/fincheck/issues) for a full list of proposed features (and known issues).
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
-## Getting Started
+### Getting Started
 To get a local copy and run it, follow these simple steps.
 
-### Prerequisites
+#### Prerequisites
 1. First make sure you have npm and yarn:
 ```sh
 npm install yarn@latest -g
@@ -79,7 +109,7 @@ npm install yarn@latest -g
 git clone https://github.com/nicolasteofilo/fincheck
 ```
 
-### Database
+#### Database
 You can choose to use the database manually installed, but here we will follow using docker.
 
 First, we must create a PostgreSQL database with docker:
@@ -90,7 +120,7 @@ docker run --name pg -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -p 5432:543
 
 Don't forget to change the creation variables and save them for later use.
 
-### API
+#### API
 Now, let's run the API to be consumed by our client later.
 
 1. Inside the project folder, go to the API folder
@@ -137,7 +167,7 @@ yarn start:dev
 <!-- ROADMAP -->
 
 
-### Client
+#### Client
 With the API configured, let's configure and run the front-end
 
 1. Inside the project folder, go to the front-end folder
@@ -168,32 +198,10 @@ VITE_API_URL = "http://localhost:3333"
 yarn dev
 ```
 
-## Roadmap
-
-- [x] Create a account in application
-- [x] Log in to the application with an account
-- [ ] Transactions
-  - [x] Create transaction
-  - [x] List transaction
-  - [x] Edit transaction
-  - [x] Delete transaction
-- [ ] Bank Accounts
-  - [x] Create bank account with initial balance
-  - [x] Edit bank account
-  - [x] Delete bank account
-- [ ] Filters
-  - [x] Filter transaction by bank account
-  - [x] Filter transaction by month and year
-  - [x] Filter transaction by month and year
-
-
-See the [open issues](https://github.com/nicolasteofilo/fincheck/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 
-## Contributing
+### Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -208,7 +216,7 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Top contributors:
+#### Top contributors:
 
 <a href="https://github.com/nicolasteofilo/fincheck/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=nicolasteofilo/fincheck" alt="contrib.rocks image" />
@@ -216,7 +224,7 @@ Don't forget to give the project a star! Thanks again!
 
 <!-- LICENSE -->
 
-## License
+### License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
@@ -224,7 +232,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 
-## Contact
+### Contact
 
 Nicolas Teófilo - nicolasteofilodecastro@gmail.com
 
@@ -256,3 +264,12 @@ Project Link: [https://github.com/nicolasteofilo/fincheck](https://github.com/ni
 [ReactQuery-url]: https://tanstack.com/query/latest/docs/framework/react/overview
 [Vite]: https://img.shields.io/badge/Vite-20232A?style=for-the-badge&logo=vite&logoColor=61DAFB
 [Vite-url]: https://vite.dev/
+[Nest]: https://img.shields.io/badge/Nest-20232A?style=for-the-badge&logo=nestjs&logoColor=61DAFB
+[Nest-url]: https://nestjs.com/
+[Prisma]: https://img.shields.io/badge/Prisma-20232A?style=for-the-badge&logo=prisma&logoColor=61DAFB
+[Prisma-url]: https://www.prisma.io/
+[PostgreSQL]: https://img.shields.io/badge/PostgreSQL-20232A?style=for-the-badge&logo=postgresql&logoColor=61DAFB
+[PostgreSQL-url]: https://www.postgresql.org/
+[TypeScript]: https://img.shields.io/badge/TypeScript-20232A?style=for-the-badge&logo=typescript&logoColor=61DAFB
+[TypeScript-url]: https://www.typescriptlang.org/
+
