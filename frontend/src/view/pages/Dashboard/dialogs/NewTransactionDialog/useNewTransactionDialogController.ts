@@ -12,7 +12,7 @@ import { currencyStringToNumber } from "../../../../../utils/currenytStringToNum
 import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
 const schema = z.object({
-  value: z.number().min(1, "Valor é obrigatório"),
+  value: z.number().min(0, "Valor é obrigatório").default(0),
   name: z
     .string({
       message: "Informe o nome",

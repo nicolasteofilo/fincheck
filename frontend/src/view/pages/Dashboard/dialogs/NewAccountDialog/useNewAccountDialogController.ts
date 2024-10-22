@@ -9,7 +9,7 @@ import { CreateBankAccountParams } from "../../../../../app/services/bankAccount
 import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
 const schema = z.object({
-  initialBalance: z.number().min(1, "Saldo inicial é obrigatório"),
+  initialBalance: z.number().min(0, "Saldo inicial é obrigatório").default(0),
   name: z.string().min(1, "Nome da Conta é obrigatório"),
   type: z.enum(["CHECKING", "INVESTMENT", "CASH"]),
   color: z.string().min(1, "Cor é obrigatória"),
